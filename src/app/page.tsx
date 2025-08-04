@@ -1,46 +1,72 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import Image from "next/image"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { OrbitControls, Sphere, MeshDistortMaterial, Text3D, Environment } from "@react-three/drei"
-import { motion, useScroll, useTransform, AnimatePresence, type MotionValue } from "framer-motion"
-import { Github, ExternalLink, Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import type * as THREE from "three"
-import { Hero } from "@/components/hero"
-import { About } from "@/components/about"
-import { Contact } from "@/components/contact"
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Canvas, useFrame } from "@react-three/fiber";
+import {
+  OrbitControls,
+  Sphere,
+  MeshDistortMaterial,
+  Text3D,
+  Environment,
+} from "@react-three/drei";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  type MotionValue,
+} from "framer-motion";
+import { Github, ExternalLink, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type * as THREE from "three";
+import { Hero } from "@/components/hero";
+import { About } from "@/components/about";
+import { Contact } from "@/components/contact";
+import { Experience } from "@/components/experience";
+import { Services } from "@/components/services";
+import { Testimonials } from "@/components/testimonials";
+import { FunFacts } from "@/components/fun-facts";
 
 // 3D Animated Sphere Component
 function AnimatedSphere() {
-  const meshRef = useRef<THREE.Mesh>(null)
+  const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.3
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.2
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.8) * 0.1
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.3;
+      meshRef.current.rotation.y =
+        Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+      meshRef.current.position.y =
+        Math.sin(state.clock.elapsedTime * 0.8) * 0.1;
     }
-  })
+  });
 
   return (
     <Sphere ref={meshRef} args={[1, 100, 200]} scale={2}>
-      <MeshDistortMaterial color="#0bb3d9" attach="material" distort={0.3} speed={1.5} roughness={0.4} />
+      <MeshDistortMaterial
+        color="#0bb3d9"
+        attach="material"
+        distort={0.3}
+        speed={1.5}
+        roughness={0.4}
+      />
     </Sphere>
-  )
+  );
 }
 
 // Floating 3D Text
 function FloatingText() {
-  const textRef = useRef<THREE.Group>(null)
+  const textRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (textRef.current) {
-      textRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1
-      textRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2
+      textRef.current.rotation.y =
+        Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+      textRef.current.position.y =
+        Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
     }
-  })
+  });
 
   return (
     <group ref={textRef}>
@@ -60,7 +86,7 @@ function FloatingText() {
         <meshStandardMaterial color="#ffffff" />
       </Text3D>
     </group>
-  )
+  );
 }
 
 // Project data
@@ -82,7 +108,8 @@ const projects = [
   {
     id: 2,
     title: "AI Dashboard",
-    description: "Comprehensive analytics dashboard with AI-powered insights and real-time data visualization.",
+    description:
+      "Comprehensive analytics dashboard with AI-powered insights and real-time data visualization.",
     images: [
       "/placeholder.svg?height=400&width=600&text=AI+Analytics",
       "/placeholder.svg?height=400&width=600&text=Data+Visualization",
@@ -95,7 +122,8 @@ const projects = [
   {
     id: 3,
     title: "Mobile Banking App",
-    description: "Secure mobile banking application with biometric authentication and advanced transaction features.",
+    description:
+      "Secure mobile banking application with biometric authentication and advanced transaction features.",
     images: [
       "/placeholder.svg?height=400&width=600&text=Banking+Interface",
       "/placeholder.svg?height=400&width=600&text=Transaction+History",
@@ -108,7 +136,8 @@ const projects = [
   {
     id: 4,
     title: "Social Media Platform",
-    description: "Modern social networking platform with real-time messaging and content sharing capabilities.",
+    description:
+      "Modern social networking platform with real-time messaging and content sharing capabilities.",
     images: [
       "/placeholder.svg?height=400&width=600&text=Social+Feed",
       "/placeholder.svg?height=400&width=600&text=Messaging+System",
@@ -121,7 +150,8 @@ const projects = [
   {
     id: 5,
     title: "Portfolio Website",
-    description: "Creative portfolio website with 3D animations and interactive elements for showcasing work.",
+    description:
+      "Creative portfolio website with 3D animations and interactive elements for showcasing work.",
     images: [
       "/placeholder.svg?height=400&width=600&text=3D+Portfolio",
       "/placeholder.svg?height=400&width=600&text=Interactive+Gallery",
@@ -131,19 +161,25 @@ const projects = [
     link: "#",
     github: "#",
   },
-]
+];
 
 // Image Carousel Component
-function ImageCarousel({ images, accentColor }: { images: string[]; accentColor: string }) {
-  const [currentIndex, setCurrentIndex] = useState(0)
+function ImageCarousel({
+  images,
+  accentColor,
+}: {
+  images: string[];
+  accentColor: string;
+}) {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length)
-  }
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
-  }
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
     <div className="relative w-full h-80 overflow-hidden rounded-xl border border-gray-700 group-hover:border-[#0bb3d9]/50 transition-all duration-300">
@@ -205,23 +241,27 @@ function ImageCarousel({ images, accentColor }: { images: string[]; accentColor:
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 // Stacking Cards Component - Fixed with proper implementation
 function StackingCards() {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   // To get the Y scroll progress
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
-  })
+  });
 
   return (
-    <div ref={ref} className="relative" style={{ height: `${projects.length * 100}vh` }}>
+    <div
+      ref={ref}
+      className="relative"
+      style={{ height: `${projects.length * 100}vh` }}
+    >
       {projects.map((project, index) => {
-        const targetScale = 1 - (projects.length - index) * 0.05
+        const targetScale = 1 - (projects.length - index) * 0.05;
         return (
           <ProjectCard
             key={project.id}
@@ -231,10 +271,10 @@ function StackingCards() {
             targetScale={targetScale}
             parentProgress={scrollYProgress}
           />
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 // Individual Project Card Component
@@ -245,15 +285,15 @@ function ProjectCard({
   targetScale,
   range,
 }: {
-  index: number
-  project: (typeof projects)[0]
-  parentProgress: MotionValue<number>
-  targetScale: number
-  range: [number, number]
+  index: number;
+  project: (typeof projects)[0];
+  parentProgress: MotionValue<number>;
+  targetScale: number;
+  range: [number, number];
 }) {
   // The scale for the cards when they reach their sticky position
-  const scale = useTransform(parentProgress, range, [1, targetScale])
-  const accentColor = index % 2 === 0 ? "#0bb3d9" : "#16f28b"
+  const scale = useTransform(parentProgress, range, [1, targetScale]);
+  const accentColor = index % 2 === 0 ? "#0bb3d9" : "#16f28b";
 
   return (
     <div className="h-screen flex flex-col justify-center items-center sticky top-0">
@@ -298,7 +338,10 @@ function ProjectCard({
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <ImageCarousel images={project.images} accentColor={accentColor} />
+                <ImageCarousel
+                  images={project.images}
+                  accentColor={accentColor}
+                />
               </motion.div>
 
               <div className="flex flex-col items-center gap-6">
@@ -349,21 +392,21 @@ function ProjectCard({
         </div>
       </motion.div>
     </div>
-  )
+  );
 }
 
 // Navigation Component
 function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.nav
@@ -376,28 +419,49 @@ function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <motion.a href="#" className="text-2xl font-bold" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <span className="text-glow bg-gradient-to-r from-primary via-secondary to-neon-pink bg-clip-text text-transparent">
+          <motion.a
+            href="#"
+            className="text-2xl font-bold grid place-items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {/* <span className="bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent">
+              YB
+            </span> */}
+            <span className="col-start-1 row-start-1 bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent blur-xl">
+              YB
+            </span>
+
+            <span className="col-start-1 row-start-1 bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent">
               YB
             </span>
           </motion.a>
 
           <div className="hidden md:flex space-x-8">
-            {["About", "Projects", "Contact"].map((item) => (
+            {["About", "Experience", "Skills", "Services", "Projects", "Testimonials", "Contact"].map((item) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-muted-foreground hover:text-primary transition-colors duration-300 relative"
+                className="text-muted-foreground hover:text-[#16f28b] transition-colors duration-300 relative"
                 whileHover={{ y: -2 }}
                 whileTap={{ y: 0 }}
               >
                 {item}
-                <motion.div className="absolute bottom-[-4px] left-0 h-[2px] bg-primary w-0" whileHover={{ width: "100%" }} transition={{ duration: 0.3 }} />
+                <motion.div
+                  className="absolute bottom-[-4px] left-0 h-[2px] bg-[#16f28b] w-0"
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.3 }}
+                />
               </motion.a>
             ))}
           </div>
 
-          <Button variant="ghost" size="icon" className="md:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-foreground"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? <X /> : <Menu />}
           </Button>
         </div>
@@ -412,11 +476,11 @@ function Navigation() {
             exit={{ opacity: 0, height: 0 }}
           >
             <div className="px-4 py-4 space-y-4">
-              {["About", "Projects", "Contact"].map((item) => (
+              {["About", "Experience", "Skills", "Services", "Projects", "Testimonials", "Contact"].map((item) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="block text-muted-foreground hover:text-primary transition-colors duration-300"
+                  className="block text-muted-foreground hover:text-[#16f28b] transition-colors duration-300"
                   onClick={() => setIsOpen(false)}
                   whileHover={{ x: 10 }}
                 >
@@ -428,19 +492,22 @@ function Navigation() {
         )}
       </AnimatePresence>
     </motion.nav>
-  )
+  );
 }
 
 export default function Portfolio() {
-  const { scrollYProgress } = useScroll()
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
+  const { scrollYProgress } = useScroll();
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <div className="bg-gradient-to-br from-black via-gray-900 to-gray-800 min-h-screen text-white">
       <Navigation />
 
       {/* Animated Background */}
-      <motion.div className="fixed inset-0 opacity-10" style={{ y: backgroundY }}>
+      <motion.div
+        className="fixed inset-0 opacity-10"
+        style={{ y: backgroundY }}
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(11,179,217,0.2),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(22,242,139,0.1),transparent_50%)]" />
       </motion.div>
@@ -468,6 +535,16 @@ export default function Portfolio() {
         <About />
       </section>
 
+      {/* Experience Section */}
+      <section id="experience">
+        <Experience />
+      </section>
+
+      {/* Services Section */}
+      <section id="services">
+        <Services />
+      </section>
+
       {/* Projects Section */}
       <section id="projects" className="py-20 relative">
         <div className="max-w-6xl mx-auto px-4 mb-16">
@@ -478,16 +555,28 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl font-bold text-white mb-6">Featured Projects</h2>
+            <h2 className="text-5xl font-bold text-white mb-6">
+              Featured Projects
+            </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] mx-auto mb-8"></div>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              A collection of projects that showcase my skills in modern web development, 3D graphics, and user
-              experience design.
+              A collection of projects that showcase my skills in modern web
+              development, 3D graphics, and user experience design.
             </p>
           </motion.div>
         </div>
 
         <StackingCards />
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials">
+        <Testimonials />
+      </section>
+
+      {/* Fun Facts Section */}
+      <section id="facts">
+        <FunFacts />
       </section>
 
       {/* Contact Section */}
@@ -498,9 +587,11 @@ export default function Portfolio() {
       {/* Footer */}
       <footer className="py-8 border-t border-gray-800">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-500">© 2024 Yonas Berhanu. All rights reserved.</p>
+          <p className="text-gray-500">
+            © 2024 Yonas Berhanu. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
-  )
+  );
 }
