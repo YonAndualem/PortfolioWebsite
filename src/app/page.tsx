@@ -1,25 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  OrbitControls,
-  Sphere,
-  MeshDistortMaterial,
-  Text3D,
-  Environment,
-} from "@react-three/drei";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-  type MotionValue,
-} from "framer-motion";
-import { Github, ExternalLink, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import type * as THREE from "three";
+import { motion, useScroll, useTransform, AnimatePresence, type MotionValue } from "framer-motion";
+import { ExternalLink, Github } from "lucide-react";
 import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
@@ -27,75 +10,16 @@ import { Experience } from "@/components/experience";
 import { Services } from "@/components/services";
 import { Testimonials } from "@/components/testimonials";
 import { FunFacts } from "@/components/fun-facts";
+import { Navbar } from "@/components/navbar"; // <-- You need to create this file (see earlier assistant messages)
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
-// 3D Animated Sphere Component
-function AnimatedSphere() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.3;
-      meshRef.current.rotation.y =
-        Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
-      meshRef.current.position.y =
-        Math.sin(state.clock.elapsedTime * 0.8) * 0.1;
-    }
-  });
-
-  return (
-    <Sphere ref={meshRef} args={[1, 100, 200]} scale={2}>
-      <MeshDistortMaterial
-        color="#0bb3d9"
-        attach="material"
-        distort={0.3}
-        speed={1.5}
-        roughness={0.4}
-      />
-    </Sphere>
-  );
-}
-
-// Floating 3D Text
-function FloatingText() {
-  const textRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (textRef.current) {
-      textRef.current.rotation.y =
-        Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-      textRef.current.position.y =
-        Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
-    }
-  });
-
-  return (
-    <group ref={textRef}>
-      <Text3D
-        font="/fonts/Geist_Bold.json"
-        size={0.5}
-        height={0.1}
-        curveSegments={12}
-        bevelEnabled
-        bevelThickness={0.02}
-        bevelSize={0.02}
-        bevelOffset={0}
-        bevelSegments={5}
-        position={[-1.5, 0, 0]}
-      >
-        YB
-        <meshStandardMaterial color="#ffffff" />
-      </Text3D>
-    </group>
-  );
-}
-
-// Project data
+// Project data (move to a separate file if desired)
 const projects = [
   {
     id: 1,
     title: "E-Commerce Platform",
-    description:
-      "A modern e-commerce solution with advanced filtering, real-time inventory, and seamless checkout experience.",
+    description: "A modern e-commerce solution with advanced filtering, real-time inventory, and seamless checkout experience.",
     images: [
       "/placeholder.svg?height=400&width=600&text=E-commerce+Dashboard",
       "/placeholder.svg?height=400&width=600&text=Product+Catalog",
@@ -108,8 +32,7 @@ const projects = [
   {
     id: 2,
     title: "AI Dashboard",
-    description:
-      "Comprehensive analytics dashboard with AI-powered insights and real-time data visualization.",
+    description: "Comprehensive analytics dashboard with AI-powered insights and real-time data visualization.",
     images: [
       "/placeholder.svg?height=400&width=600&text=AI+Analytics",
       "/placeholder.svg?height=400&width=600&text=Data+Visualization",
@@ -122,8 +45,7 @@ const projects = [
   {
     id: 3,
     title: "Mobile Banking App",
-    description:
-      "Secure mobile banking application with biometric authentication and advanced transaction features.",
+    description: "Secure mobile banking application with biometric authentication and advanced transaction features.",
     images: [
       "/placeholder.svg?height=400&width=600&text=Banking+Interface",
       "/placeholder.svg?height=400&width=600&text=Transaction+History",
@@ -136,8 +58,7 @@ const projects = [
   {
     id: 4,
     title: "Social Media Platform",
-    description:
-      "Modern social networking platform with real-time messaging and content sharing capabilities.",
+    description: "Modern social networking platform with real-time messaging and content sharing capabilities.",
     images: [
       "/placeholder.svg?height=400&width=600&text=Social+Feed",
       "/placeholder.svg?height=400&width=600&text=Messaging+System",
@@ -150,8 +71,7 @@ const projects = [
   {
     id: 5,
     title: "Portfolio Website",
-    description:
-      "Creative portfolio website with 3D animations and interactive elements for showcasing work.",
+    description: "Creative portfolio website with 3D animations and interactive elements for showcasing work.",
     images: [
       "/placeholder.svg?height=400&width=600&text=3D+Portfolio",
       "/placeholder.svg?height=400&width=600&text=Interactive+Gallery",
@@ -164,22 +84,11 @@ const projects = [
 ];
 
 // Image Carousel Component
-function ImageCarousel({
-  images,
-  accentColor,
-}: {
-  images: string[];
-  accentColor: string;
-}) {
+function ImageCarousel({ images, accentColor }: { images: string[]; accentColor: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+  const handleNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+  const handlePrev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 
   return (
     <div className="relative w-full h-80 overflow-hidden rounded-xl border border-gray-700 group-hover:border-[#0bb3d9]/50 transition-all duration-300">
@@ -208,7 +117,6 @@ function ImageCarousel({
           background: `linear-gradient(135deg, ${accentColor}, #16f28b)`,
         }}
       />
-
       {/* Controls */}
       <div className="absolute bottom-4 right-4 flex gap-2">
         <Button
@@ -228,15 +136,13 @@ function ImageCarousel({
           {">"}
         </Button>
       </div>
-
       {/* Dots */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {images.map((_, index) => (
           <div
             key={index}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              currentIndex === index ? "bg-[#0bb3d9] p-1" : "bg-gray-500"
-            }`}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${currentIndex === index ? "bg-[#0bb3d9] p-1" : "bg-gray-500"
+              }`}
           />
         ))}
       </div>
@@ -244,22 +150,15 @@ function ImageCarousel({
   );
 }
 
-// Stacking Cards Component - Fixed with proper implementation
+// Stacking Cards Component
 function StackingCards() {
   const ref = useRef<HTMLDivElement>(null);
-
-  // To get the Y scroll progress
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
-
   return (
-    <div
-      ref={ref}
-      className="relative"
-      style={{ height: `${projects.length * 100}vh` }}
-    >
+    <div ref={ref} className="relative" style={{ height: `${projects.length * 100}vh` }}>
       {projects.map((project, index) => {
         const targetScale = 1 - (projects.length - index) * 0.05;
         return (
@@ -291,10 +190,8 @@ function ProjectCard({
   targetScale: number;
   range: [number, number];
 }) {
-  // The scale for the cards when they reach their sticky position
   const scale = useTransform(parentProgress, range, [1, targetScale]);
   const accentColor = index % 2 === 0 ? "#0bb3d9" : "#16f28b";
-
   return (
     <div className="h-screen flex flex-col justify-center items-center sticky top-0">
       <motion.div
@@ -331,19 +228,14 @@ function ProjectCard({
                   {project.description}
                 </motion.p>
               </div>
-
               <motion.div
                 className="relative"
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <ImageCarousel
-                  images={project.images}
-                  accentColor={accentColor}
-                />
+                <ImageCarousel images={project.images} accentColor={accentColor} />
               </motion.div>
-
               <div className="flex flex-col items-center gap-6">
                 <motion.div
                   className="flex flex-wrap gap-3 justify-center"
@@ -365,12 +257,7 @@ function ProjectCard({
                     </span>
                   ))}
                 </motion.div>
-                <motion.div
-                  className="flex gap-4"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                >
+                <motion.div className="flex gap-4" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}>
                   <Button
                     className="text-white hover:shadow-lg transition-all duration-300 hover:scale-105"
                     style={{ backgroundColor: accentColor }}
@@ -395,117 +282,18 @@ function ProjectCard({
   );
 }
 
-// Navigation Component
-function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass border-b border-border" : "bg-transparent"
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <motion.a
-            href="#"
-            className="text-2xl font-bold grid place-items-center"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {/* <span className="bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent">
-              YB
-            </span> */}
-            <span className="col-start-1 row-start-1 bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent blur-xl">
-              YB
-            </span>
-
-            <span className="col-start-1 row-start-1 bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent">
-              YB
-            </span>
-          </motion.a>
-
-          <div className="hidden md:flex space-x-8">
-            {["About", "Experience", "Skills", "Services", "Projects", "Testimonials", "Contact"].map((item) => (
-              <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-muted-foreground hover:text-[#16f28b] transition-colors duration-300 relative"
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
-              >
-                {item}
-                <motion.div
-                  className="absolute bottom-[-4px] left-0 h-[2px] bg-[#16f28b] w-0"
-                  whileHover={{ width: "100%" }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.a>
-            ))}
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-foreground"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="md:hidden glass border-t border-border"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-          >
-            <div className="px-4 py-4 space-y-4">
-              {["About", "Experience", "Skills", "Services", "Projects", "Testimonials", "Contact"].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="block text-muted-foreground hover:text-[#16f28b] transition-colors duration-300"
-                  onClick={() => setIsOpen(false)}
-                  whileHover={{ x: 10 }}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
-  );
-}
-
 export default function Portfolio() {
   const { scrollYProgress } = useScroll();
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <div className="bg-gradient-to-br from-black via-gray-900 to-gray-800 min-h-screen text-white">
-      <Navigation />
+      {/* Modern, animated Navbar */}
+      <Navbar />
 
       {/* Animated Background */}
       <motion.div
-        className="fixed inset-0 opacity-10"
+        className="fixed inset-0 opacity-10 pointer-events-none"
         style={{ y: backgroundY }}
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(11,179,217,0.2),transparent_50%)]" />
@@ -514,24 +302,13 @@ export default function Portfolio() {
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Canvas camera={{ position: [0, 0, 5] }}>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} />
-            <AnimatedSphere />
-            <FloatingText />
-            <Environment preset="night" />
-            <OrbitControls enableZoom={false} enablePan={false} />
-          </Canvas>
-        </div>
-
         <Hero />
       </section>
 
       {/* About Section */}
       <section id="about" className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#0bb3d9]/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#0bb3d9]/5 rounded-full blur-3xl pointer-events-none" />
         <About />
       </section>
 
@@ -555,17 +332,13 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl font-bold text-white mb-6">
-              Featured Projects
-            </h2>
+            <h2 className="text-5xl font-bold text-white mb-6">Featured Projects</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] mx-auto mb-8"></div>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              A collection of projects that showcase my skills in modern web
-              development, 3D graphics, and user experience design.
+              A collection of projects that showcase my skills in modern web development, 3D graphics, and user experience design.
             </p>
           </motion.div>
         </div>
-
         <StackingCards />
       </section>
 
