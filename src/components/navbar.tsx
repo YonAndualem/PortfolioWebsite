@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Github, Linkedin, Instagram, Mail } from "lucide-react";
+import { Menu, X, Github, Linkedin, Instagram, Mail, Twitter } from "lucide-react";
 import Image from "next/image";
 
 const NAV_ITEMS = [
@@ -19,6 +19,7 @@ const SOCIALS = [
     { icon: Github, label: "GitHub", href: "https://github.com/YonAndualem" },
     { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/yonandualem/" },
     { icon: Instagram, label: "Instagram", href: "https://instagram.com/yonandualem" },
+    { icon: Twitter, label: "Twitter", href: "https://twitter.com/yonandualem" },
     { icon: Mail, label: "Email", href: "mailto:yonasandualem1472@gmail.com" },
 ];
 
