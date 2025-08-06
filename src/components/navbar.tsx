@@ -76,6 +76,18 @@ export function Navbar() {
         return () => window.removeEventListener("hashchange", onHashChange);
     }, [isOpen]);
 
+    // --- Add this helper ---
+    const scrollToSection = (href: string) => {
+        setIsOpen(false);
+        const id = href.replace("#", "");
+        setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }, 100); // Wait for menu to close
+    };
+
     const Logo = (
         <a href="#" aria-label="Home" className="flex items-center">
             <Image
@@ -172,18 +184,17 @@ export function Navbar() {
                     >
                         <div className="px-4 py-4 space-y-2 flex flex-col">
                             {NAV_ITEMS.map((item) => (
-                                <a
+                                <button
                                     key={item.label}
-                                    href={item.href}
-                                    className={`block text-muted-foreground hover:text-[#16f28b] transition-colors duration-300 text-lg font-medium py-2 px-1 rounded outline-none ${activeSection === item.href ? "text-[#0bb3d9] font-bold" : ""
+                                    className={`block text-muted-foreground hover:text-[#16f28b] transition-colors duration-300 text-lg font-medium py-2 px-1 rounded outline-none text-left ${activeSection === item.href ? "text-[#0bb3d9] font-bold" : ""
                                         }`}
                                     tabIndex={0}
                                     role="menuitem"
                                     aria-current={activeSection === item.href ? "page" : undefined}
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={() => scrollToSection(item.href)}
                                 >
                                     {item.label}
-                                </a>
+                                </button>
                             ))}
                             <div className="border-t border-gray-700 my-2" />
                             <div className="flex items-center gap-2 mt-3">
