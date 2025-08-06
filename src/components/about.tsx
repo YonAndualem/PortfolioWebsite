@@ -1,33 +1,57 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import { Card } from "@/components/ui/card"
-import { Code, Palette, Zap, Globe } from "lucide-react"
+import { Code, Palette, Database, GitBranch, Sparkles } from "lucide-react"
 
 const skills = [
   {
     icon: Code,
     title: "Frontend Development",
-    description: "React, Vue, Angular, TypeScript, and modern web frameworks",
-    technologies: ["React", "Next.js", "Vue", "TypeScript", "Tailwind CSS"],
+    description: "Modern, scalable user interfaces.",
+    technologies: [
+      "React", "Next.js", "Vite", "HTML", "CSS", "JavaScript", "TypeScript", "Tailwind CSS"
+    ],
+  },
+  {
+    icon: Database,
+    title: "Backend Development",
+    description: "API design, databases, and server logic.",
+    technologies: [
+      "Node.js", "Express", "Drizzle ORM", "PostgreSQL", "REST APIs", "Firebase", "PHP", "Spring Boot"
+    ],
   },
   {
     icon: Palette,
     title: "UI/UX Design",
-    description: "Creating intuitive and beautiful user experiences",
-    technologies: ["Figma", "Adobe XD", "Sketch", "Principle", "Framer"],
+    description: "Design systems and engaging user experiences.",
+    technologies: [
+      "Figma", "Wireframing", "Prototyping", "Adobe Illustrator", "UI/UX Principles", "User Research"
+    ],
   },
   {
-    icon: Zap,
-    title: "3D & Animation",
-    description: "Three.js, WebGL, and immersive web experiences",
-    technologies: ["Three.js", "WebGL", "Blender", "After Effects", "Lottie"],
+    icon: GitBranch,
+    title: "Version Control & Testing",
+    description: "Collaboration, code quality, and testing.",
+    technologies: [
+      "Git", "GitHub", "Postman", "Manual Testing", "API Testing", "Mobile Testing (Android)"
+    ],
   },
-  {
-    icon: Globe,
-    title: "Full Stack",
-    description: "End-to-end application development and deployment",
-    technologies: ["Node.js", "Python", "PostgreSQL", "AWS", "Docker"],
-  },
+]
+
+// Collated tools and technologies (view all)
+const allTools: string[] = [
+  "React", "Next.js", "Vite", "HTML", "CSS", "JavaScript", "TypeScript", "Tailwind CSS",
+  "Node.js", "Express", "Drizzle ORM", "PostgreSQL", "REST APIs", "Firebase", "PHP", "Spring Boot",
+  "Figma", "Wireframing", "Prototyping", "Adobe Illustrator", "UI/UX Principles", "User Research",
+  "Git", "GitHub", "Postman", "Manual Testing", "API Testing", "Mobile Testing (Android)",
+]
+
+// More visually engaging soft skills
+const softSkills = [
+  { label: "Problem-solving", color: "#0bb3d9", icon: Sparkles },
+  { label: "Critical Thinking", color: "#16f28b", icon: Sparkles },
+  { label: "Communication", color: "#0bb3d9", icon: Sparkles },
+  { label: "Team Collaboration", color: "#16f28b", icon: Sparkles },
 ]
 
 export const About = () => {
@@ -53,33 +77,27 @@ export const About = () => {
 
   return (
     <div ref={sectionRef} className="container max-w-6xl mx-auto px-8 relative z-10">
-      <div className="text-center mb-20 space-y-6">
+      <div className="text-center mb-16 space-y-6">
         <h2
           className={`
           text-5xl md:text-6xl font-bold transition-all duration-1000
           ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
         `}
         >
-          <span className="text-white">About</span>
-          <span className="block bg-gradient-to-r from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] bg-clip-text text-transparent">
-            Yonas
-          </span>
+          <span className="text-white">Professional Profile</span>
         </h2>
-
         <p
           className={`
           text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-200
           ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
         `}
         >
-          I&apos;m a passionate creative developer who bridges the gap between design and technology. With over 5 years
-          of experience, I specialize in creating immersive digital experiences that push the boundaries of what&apos;s
-          possible on the web.
+          Software Engineering student with hands-on experience in full stack development, UI/UX design, and quality assurance. Skilled in building robust web applications, designing user-centered interfaces, and ensuring software reliability. Quick learner, proactive in adopting new technologies, and a collaborative team player dedicated to delivering impactful results.
         </p>
       </div>
 
       {/* Skills grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
         {skills.map((skill, index) => (
           <Card
             key={index}
@@ -94,53 +112,61 @@ export const About = () => {
               <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0bb3d9]/20 to-[#16f28b]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <skill.icon className="w-6 h-6 text-[#0bb3d9]" />
               </div>
-
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-white group-hover:text-[#0bb3d9] transition-colors duration-300">
                   {skill.title}
                 </h3>
                 <p className="text-sm text-gray-300 leading-relaxed">{skill.description}</p>
               </div>
-
               <div className="flex flex-wrap gap-2">
-                {skill.technologies.slice(0, 3).map((tech, techIndex) => (
+                {skill.technologies.map((tech, techIndex) => (
                   <span
                     key={techIndex}
-                    className="text-xs px-2 py-1 rounded-full bg-[#0bb3d9]/10 text-[#0bb3d9] border border-[#0bb3d9]/20"
+                    className="text-xs px-2 py-1 rounded-full bg-gray-800/60 text-[#0bb3d9] border border-[#0bb3d9]/20"
                   >
                     {tech}
                   </span>
                 ))}
-                {skill.technologies.length > 3 && (
-                  <span className="text-xs px-2 py-1 rounded-full bg-gray-800/50 text-gray-400">
-                    +{skill.technologies.length - 3}
-                  </span>
-                )}
               </div>
             </div>
           </Card>
         ))}
       </div>
 
-      {/* Stats section */}
+      {/* View all tools used */}
       <div
         className={`
-        grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 transition-all duration-1000 delay-1000
-        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
-      `}
+          flex flex-wrap justify-center gap-2 mb-10 transition-all duration-1000 delay-400
+          ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+        `}
       >
-        {[
-          { number: "50+", label: "Projects Completed" },
-          { number: "5+", label: "Years Experience" },
-          { number: "20+", label: "Happy Clients" },
-          { number: "100%", label: "Passion Driven" },
-        ].map((stat, index) => (
-          <div key={index} className="text-center space-y-2">
-            <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] bg-clip-text text-transparent">
-              {stat.number}
-            </div>
-            <div className="text-sm text-gray-400 uppercase tracking-wider">{stat.label}</div>
-          </div>
+        {allTools.map((tool, idx) => (
+          <span key={idx} className="px-3 py-1 rounded-full bg-[#0bb3d9]/10 text-[#0bb3d9] border border-[#0bb3d9]/20 text-xs">
+            {tool}
+          </span>
+        ))}
+      </div>
+
+      {/* Cooler soft skills with icons and gradients */}
+      <div
+        className={`
+          flex flex-wrap justify-center gap-4 mb-10 transition-all duration-1000 delay-600
+          ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+        `}
+      >
+        {softSkills.map((skill, idx) => (
+          <span
+            key={idx}
+            className="flex items-center gap-2 px-5 py-2 rounded-xl font-semibold text-sm shadow-sm"
+            style={{
+              background: `linear-gradient(90deg, ${skill.color} 0%, #222 100%)`,
+              color: "#fff",
+              border: `1px solid ${skill.color}55`,
+            }}
+          >
+            <skill.icon className="w-4 h-4" style={{ color: skill.color }} />
+            {skill.label}
+          </span>
         ))}
       </div>
     </div>
