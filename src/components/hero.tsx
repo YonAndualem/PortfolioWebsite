@@ -211,8 +211,12 @@ export const Hero = () => {
                   <Icon className="w-6 h-6 text-[#0bb3d9]" />
                 </a>
               ))}
+              
+              
             </div>
-
+              <div>
+              <span className="ml-2 text-[#0bb3d9]">@YonAndualem</span>
+              </div>
             {/* Description */}
             <div className="flex flex-col items-center w-full">
               <p className={`

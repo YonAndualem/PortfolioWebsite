@@ -8,7 +8,6 @@ import Image from "next/image";
 const NAV_ITEMS = [
     { label: "About", href: "#about" },
     { label: "Experience", href: "#experience" },
-    { label: "Services", href: "#services" },
     { label: "Projects", href: "#projects" },
     { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
