@@ -7,12 +7,12 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { Experience } from "@/components/experience";
-import { Services } from "@/components/services";
 import { Testimonials } from "@/components/testimonials";
-import { FunFacts } from "@/components/fun-facts";
-import { Navbar } from "@/components/navbar"; // <-- You need to create this file (see earlier assistant messages)
+import { Navbar } from "@/components/navbar"; 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Projects } from "@/components/projects";
+import { Footer } from "@/components/footer";
 
 // Project data (move to a separate file if desired)
 const projects = [
@@ -317,33 +317,11 @@ export default function Portfolio() {
 
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 relative">
-        <div className="max-w-6xl mx-auto px-4 mb-16">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl font-bold text-white mb-6">Featured Projects</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] mx-auto mb-8"></div>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              A collection of projects that showcase my skills in modern web development, 3D graphics, and user experience design.
-            </p>
-          </motion.div>
-        </div>
-        <StackingCards />
-      </section>
+      <Projects />
 
       {/* Testimonials Section */}
       <section id="testimonials">
         <Testimonials />
-      </section>
-
-      {/* Fun Facts Section */}
-      <section id="facts">
-        <FunFacts />
       </section>
 
       {/* Contact Section */}
@@ -352,13 +330,7 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 border-t border-gray-800">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-500">
-            © 2024 Yonas Berhanu. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

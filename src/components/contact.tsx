@@ -1,59 +1,79 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useRef, useEffect } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Mail, Github, Linkedin, Twitter } from "lucide-react"
+import React, { useState, useRef, useEffect } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Mail, Github, Linkedin, Twitter } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import { toast } from "@/hooks/use-toast";
 
 const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Mail, href: "mailto:yonas@example.com", label: "Email" },
-]
+  { icon: Github, href: "https://github.com/YonAndualem", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com/in/yonandualem/", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com/yonandualem", label: "Twitter" },
+  { icon: Mail, href: "mailto:yonasandualem1472@gmail.com", label: "Email" },
+];
+
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+const EMAILJS_USER_ID = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
 export const Contact = () => {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
-  })
-  const sectionRef = useRef<HTMLDivElement>(null)
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.2 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      // EmailJS expects a plain object with keys: name, email, message
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+        EMAILJS_USER_ID
+      );
+      toast("Your message was sent! Thank you.");
+      setFormData({ name: "", email: "", message: "" });
+      setSent(true);
+      setTimeout(() => setSent(false), 2500);
+    } catch (error) {
+      toast("Failed to send message.", { description: "Try again later." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section ref={sectionRef} className="py-32 relative overflow-hidden">
@@ -73,13 +93,10 @@ export const Contact = () => {
                   Collaborate
                 </span>
               </h2>
-
               <p className="text-xl text-gray-300 leading-relaxed">
-                Ready to bring your vision to life? I&apos;m always excited to work on innovative projects that
-                challenge the status quo and create meaningful impact.
+                Ready to bring your vision to life? I&apos;m always excited to work on innovative projects that challenge the status quo and create meaningful impact.
               </p>
             </div>
-
             {/* Social links */}
             <div
               className={`
@@ -92,13 +109,14 @@ export const Contact = () => {
                   key={index}
                   href={social.href}
                   aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-800/50 backdrop-blur-lg border border-gray-700 flex items-center justify-center hover:bg-[#0bb3d9]/20 hover:border-[#0bb3d9] hover:scale-110 transition-all duration-300 group"
                 >
                   <social.icon className="w-5 h-5 text-[#0bb3d9] group-hover:text-white transition-colors" />
                 </a>
               ))}
             </div>
-
             {/* Contact info */}
             <div
               className={`
@@ -108,14 +126,13 @@ export const Contact = () => {
             >
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#0bb3d9]" />
-                <span className="text-gray-300">yonas.berhanu@example.com</span>
+                <span className="text-gray-300">yonasandualem1472@gmail.com</span>
               </div>
               <div className="text-sm text-gray-400">
                 Currently available for freelance projects and full-time opportunities
               </div>
             </div>
           </div>
-
           {/* Right side - Contact form */}
           <Card
             className={`
@@ -125,54 +142,46 @@ export const Contact = () => {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
-                <div>
-                  <Input
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] transition-colors text-white placeholder:text-gray-400"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Input
-                    name="email"
-                    type="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] transition-colors text-white placeholder:text-gray-400"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Textarea
-                    name="message"
-                    placeholder="Tell me about your project..."
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] transition-colors resize-none text-white placeholder:text-gray-400"
-                    required
-                  />
-                </div>
+                <Input
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] text-white placeholder:text-gray-400"
+                />
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] text-white placeholder:text-gray-400"
+                />
+                <Textarea
+                  name="message"
+                  placeholder="Tell me about your project..."
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] text-white placeholder:text-gray-400 resize-none"
+                />
               </div>
-
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] hover:shadow-lg hover:shadow-[#0bb3d9]/25 transition-all duration-300 group text-white hover:scale-105"
+                disabled={isLoading || sent}
+                className="w-full bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] text-white hover:scale-105 transition-all duration-300"
                 size="lg"
               >
-                Send Message
-                <div className="ml-2 transition-transform group-hover:translate-x-1">→</div>
+                {sent ? "Sent!" : isLoading ? "Sending..." : "Send Message"}
+                {!sent && <div className="ml-2 transition-transform group-hover:translate-x-1">→</div>}
               </Button>
             </form>
           </Card>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
