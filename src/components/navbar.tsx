@@ -48,21 +48,18 @@ export function Navbar() {
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
-            let closestSection = "";
-            let minDistance = Infinity;
-            NAV_ITEMS.forEach((nav) => {
+            let current = "";
+            for (const nav of NAV_ITEMS) {
                 const id = nav.href.replace("#", "");
                 const section = document.getElementById(id);
                 if (section) {
-                    const rect = section.getBoundingClientRect();
-                    const distance = Math.abs(rect.top - 80); // 80px offset for navbar height
-                    if (rect.top - 80 <= 0 && distance < minDistance) {
-                        minDistance = distance;
-                        closestSection = nav.href;
+                    const offset = section.offsetTop - 80;
+                    if (window.scrollY >= offset) {
+                        current = nav.href;
                     }
                 }
-            });
-            setActiveSection(closestSection);
+            }
+            setActiveSection(current);
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
         handleScroll();

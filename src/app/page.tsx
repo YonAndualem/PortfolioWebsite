@@ -313,14 +313,8 @@ export default function Portfolio() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience">
-        <Experience />
-      </section>
+      <Experience />
 
-      {/* Services Section */}
-      <section id="services">
-        <Services />
-      </section>
 
       {/* Projects Section */}
       <section id="projects" className="py-20 relative">
