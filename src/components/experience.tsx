@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion"
 import { Calendar, MapPin, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+// Experience data
 const experiences = [
   {
     id: 1,
@@ -125,6 +126,7 @@ const experiences = [
   },
 ]
 
+// Responsive mobile hook
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
@@ -134,6 +136,68 @@ function useIsMobile() {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
   return isMobile
+}
+
+// Card component: fixes hooks-in-map error
+function ExperienceCard({ exp, index, isMobile }: { exp: typeof experiences[0]; index: number; isMobile: boolean }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(cardRef, { amount: 0.5, once: false })
+
+  return (
+    <motion.div
+      key={exp.id}
+      ref={cardRef}
+      className={`relative mb-16 ${!isMobile && (index % 2 === 0 ? "md:pr-1/2 md:text-right" : "md:pl-1/2 md:ml-auto")}`}
+      initial={{ opacity: 0, x: isMobile ? 0 : (index % 2 === 0 ? -100 : 100) }}
+      animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: isMobile ? 0 : (index % 2 === 0 ? -100 : 100) }}
+      transition={{ duration: 0.8, delay: index * 0.15 }}
+    >
+      {/* Timeline dot (hide on mobile) */}
+      {!isMobile && (
+        <div
+          className="absolute top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-gray-900 transition-all duration-300 z-10"
+          style={{
+            backgroundColor: inView ? exp.color : "#374151",
+            boxShadow: inView ? `0 0 20px ${exp.color}` : "none",
+          }}
+        />
+      )}
+      <div
+        className={`bg-gray-900/50 backdrop-blur-lg border border-gray-700 rounded-2xl p-8 hover:border-[#0bb3d9]/50 transition-all duration-500 group hover:scale-105 ${!isMobile && (index % 2 === 0 ? "md:mr-8" : "md:ml-8")}`}
+        style={{
+          borderColor: inView ? exp.color : undefined,
+          boxShadow: inView ? `0 0 20px ${exp.color}22` : undefined,
+        }}
+      >
+        <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <Calendar className="w-4 h-4" />
+            {exp.duration}
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <MapPin className="w-4 h-4" />
+            {exp.location}
+          </div>
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[#0bb3d9] transition-colors">
+          {exp.position}
+        </h3>
+        <h4 className="text-lg font-semibold mb-4" style={{ color: exp.color }}>
+          {exp.company}
+        </h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
+        <div className="space-y-2">
+          <h5 className="text-sm font-semibold text-[#16f28b] mb-3">Key Achievements:</h5>
+          {exp.achievements.map((achievement, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[#16f28b]" />
+              <span className="text-sm text-gray-300">{achievement}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  )
 }
 
 export const Experience = () => {
@@ -151,7 +215,6 @@ export const Experience = () => {
           style={{ animationDelay: "2s" }}
         />
       </div>
-
       <div className="container max-w-6xl mx-auto px-8 relative z-10">
         <motion.div
           className="text-center mb-20"
@@ -186,78 +249,14 @@ export const Experience = () => {
             </a>
           </Button>
         </motion.div>
-
         <div className="relative">
           {/* Timeline line (hide on mobile) */}
           {!isMobile && (
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-[#0bb3d9] via-[#16f28b] to-[#0bb3d9] opacity-30" />
           )}
-
-          {experiences.map((exp, index) => {
-            // Card ref for in-view detection
-            const cardRef = useRef<HTMLDivElement>(null)
-            const inView = useInView(cardRef, { amount: 0.5, once: false })
-
-            return (
-              <motion.div
-                key={exp.id}
-                ref={cardRef}
-                className={`relative mb-16 ${!isMobile && (index % 2 === 0 ? "md:pr-1/2 md:text-right" : "md:pl-1/2 md:ml-auto")}`}
-                initial={{ opacity: 0, x: isMobile ? 0 : (index % 2 === 0 ? -100 : 100) }}
-                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: isMobile ? 0 : (index % 2 === 0 ? -100 : 100) }}
-                transition={{ duration: 0.8, delay: index * 0.15 }}
-              >
-                {/* Timeline dot (hide on mobile) */}
-                {!isMobile && (
-                  <div
-                    className="absolute top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-gray-900 transition-all duration-300 z-10"
-                    style={{
-                      backgroundColor: inView ? exp.color : "#374151",
-                      boxShadow: inView ? `0 0 20px ${exp.color}` : "none",
-                    }}
-                  />
-                )}
-
-                <div
-                  className={`bg-gray-900/50 backdrop-blur-lg border border-gray-700 rounded-2xl p-8 hover:border-[#0bb3d9]/50 transition-all duration-500 group hover:scale-105 ${!isMobile && (index % 2 === 0 ? "md:mr-8" : "md:ml-8")}`}
-                  style={{
-                    borderColor: inView ? exp.color : undefined,
-                    boxShadow: inView ? `0 0 20px ${exp.color}22` : undefined,
-                  }}
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <Calendar className="w-4 h-4" />
-                      {exp.duration}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <MapPin className="w-4 h-4" />
-                      {exp.location}
-                    </div>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[#0bb3d9] transition-colors">
-                    {exp.position}
-                  </h3>
-                  <h4 className="text-lg font-semibold mb-4" style={{ color: exp.color }}>
-                    {exp.company}
-                  </h4>
-
-                  <p className="text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
-
-                  <div className="space-y-2">
-                    <h5 className="text-sm font-semibold text-[#16f28b] mb-3">Key Achievements:</h5>
-                    {exp.achievements.map((achievement, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#16f28b]" />
-                        <span className="text-sm text-gray-300">{achievement}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )
-          })}
+          {experiences.map((exp, index) => (
+            <ExperienceCard key={exp.id} exp={exp} index={index} isMobile={isMobile} />
+          ))}
         </div>
       </div>
     </section>
