@@ -8,7 +8,6 @@ import Image from "next/image";
 const NAV_ITEMS = [
     { label: "About", href: "#about" },
     { label: "Experience", href: "#experience" },
-    { label: "Skills", href: "#about" }, // update to your skills section id if needed
     { label: "Services", href: "#services" },
     { label: "Projects", href: "#projects" },
     { label: "Testimonials", href: "#testimonials" },
@@ -49,18 +48,21 @@ export function Navbar() {
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
-            let current = "";
-            for (const nav of NAV_ITEMS) {
+            let closestSection = "";
+            let minDistance = Infinity;
+            NAV_ITEMS.forEach((nav) => {
                 const id = nav.href.replace("#", "");
                 const section = document.getElementById(id);
                 if (section) {
-                    const offset = section.offsetTop - 80;
-                    if (window.scrollY >= offset) {
-                        current = nav.href;
+                    const rect = section.getBoundingClientRect();
+                    const distance = Math.abs(rect.top - 80); // 80px offset for navbar height
+                    if (rect.top - 80 <= 0 && distance < minDistance) {
+                        minDistance = distance;
+                        closestSection = nav.href;
                     }
                 }
-            }
-            setActiveSection(current);
+            });
+            setActiveSection(closestSection);
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
         handleScroll();
