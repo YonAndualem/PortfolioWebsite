@@ -47,12 +47,12 @@ const allTools: string[] = [
 ]
 
 // More visually engaging soft skills
-const softSkills = [
-  { label: "Problem-solving", color: "#0bb3d9", icon: Sparkles },
-  { label: "Critical Thinking", color: "#16f28b", icon: Sparkles },
-  { label: "Communication", color: "#0bb3d9", icon: Sparkles },
-  { label: "Team Collaboration", color: "#16f28b", icon: Sparkles },
-]
+// const softSkills = [
+//   { label: "Problem-solving", color: "#0bb3d9", icon: Sparkles },
+//   { label: "Critical Thinking", color: "#16f28b", icon: Sparkles },
+//   { label: "Communication", color: "#0bb3d9", icon: Sparkles },
+//   { label: "Team Collaboration", color: "#16f28b", icon: Sparkles },
+// ]
 
 export const About = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -154,7 +154,7 @@ export const About = () => {
           ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
         `}
       >
-        {softSkills.map((skill, idx) => (
+        {/* {softSkills.map((skill, idx) => (
           <span
             key={idx}
             className="flex items-center gap-2 px-5 py-2 rounded-xl font-semibold text-sm shadow-sm"
@@ -167,7 +167,7 @@ export const About = () => {
             <skill.icon className="w-4 h-4" style={{ color: skill.color }} />
             {skill.label}
           </span>
-        ))}
+        ))} */}
       </div>
     </div>
   )
