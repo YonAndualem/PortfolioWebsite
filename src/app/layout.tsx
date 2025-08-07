@@ -5,18 +5,18 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://yonandualem.netlify.app/'), // <-- Change this to your deployed domain!
+  metadataBase: new URL('https://yonandualem.netlify.app/'),
   title: 'Yonas Berhanu Andualem | Full Stack Developer & UI/UX Designer',
   description: 'Portfolio of Yonas Berhanu Andualem – Software Engineering student at HiLCoE, ALX alumni, and Full Stack Developer. MERN Stack Specialist (React, Node.js, Express, MySQL) passionate about building user-centered applications with engaging interfaces.',
   generator: 'Next.js',
   openGraph: {
     title: 'Yonas Berhanu Andualem | Full Stack Developer & UI/UX Designer',
     description: 'A Software Engineering student at HiLCoE and ALX alumni, specializing in MERN stack (React, Node.js, Express, MySQL) and UI/UX design. Explore my portfolio, skills, and projects.',
-    url: 'https://yonandualem.netlify.app/', // <-- Replace with your deployed domain
-    siteName: 'Yonas Berhanu Andualem\'s Portfolio',
+    url: 'https://yonandualem.netlify.app/',
+    siteName: "Yonas Berhanu Andualem's Portfolio",
     images: [
       {
-        url: '/opengraph-image.png', // Place the image in /public
+        url: '/opengraph-image.png',
         width: 1200,
         height: 630,
         alt: 'Yonas Berhanu Andualem Portfolio',
@@ -33,17 +33,16 @@ export const metadata: Metadata = {
   },
 }
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <style>{`
-html {
+:root {
   font-family: ${GeistSans.style.fontFamily};
   --font-sans: ${GeistSans.variable};
   --font-mono: ${GeistMono.variable};
