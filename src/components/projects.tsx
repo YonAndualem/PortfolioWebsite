@@ -40,6 +40,7 @@ function ImageCarousel({ images, accentColor }: { images: string[]; accentColor:
                 style={{
                     background: `linear-gradient(135deg, ${accentColor}, #16f28b)`,
                 }}
+                aria-hidden="true"
             />
             {/* Controls */}
             <div className="absolute bottom-4 right-4 flex gap-2">
@@ -48,6 +49,7 @@ function ImageCarousel({ images, accentColor }: { images: string[]; accentColor:
                     variant="outline"
                     onClick={handlePrev}
                     className="bg-gray-900/50 backdrop-blur-sm border-gray-600 hover:bg-gray-800/80 text-white"
+                    aria-label="Previous image"
                 >
                     {"<"}
                 </Button>
@@ -56,18 +58,27 @@ function ImageCarousel({ images, accentColor }: { images: string[]; accentColor:
                     variant="outline"
                     onClick={handleNext}
                     className="bg-gray-900/50 backdrop-blur-sm border-gray-600 hover:bg-gray-800/80 text-white"
+                    aria-label="Next image"
                 >
                     {">"}
                 </Button>
             </div>
-            {/* Dots */}
+            {/* Dots (accessible, non-intrusive) */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                 {images.map((_, index) => (
-                    <div
+                    <button
                         key={index}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${currentIndex === index ? "bg-[#0bb3d9] p-1" : "bg-gray-500"
-                            }`}
-                    />
+                        type="button"
+                        aria-label={`Go to image ${index + 1}`}
+                        onClick={() => setCurrentIndex(index)}
+                        className="relative focus:outline-none"
+                        tabIndex={0}
+                        style={{ padding: 0, background: "none", border: "none" }}
+                    >
+                        <span
+                            className={`block w-2 h-2 rounded-full transition-all duration-300 ${currentIndex === index ? "bg-[#0bb3d9] p-1" : "bg-gray-500"}`}
+                        />
+                    </button>
                 ))}
             </div>
         </div>
@@ -187,6 +198,7 @@ function ProjectCard({
                                             className="text-white hover:shadow-lg transition-all duration-300 hover:scale-105"
                                             style={{ backgroundColor: accentColor }}
                                             asChild
+                                            aria-label={`Live Demo: ${project.title}`}
                                         >
                                             <a href={project.link} target="_blank" rel="noopener noreferrer">
                                                 <ExternalLink className="w-4 h-4 mr-2" />
@@ -199,6 +211,7 @@ function ProjectCard({
                                             variant="outline"
                                             className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white bg-transparent transition-all duration-300 hover:scale-105"
                                             asChild
+                                            aria-label={`View Code: ${project.title}`}
                                         >
                                             <a href={project.github} target="_blank" rel="noopener noreferrer">
                                                 <Github className="w-4 h-4 mr-2" />

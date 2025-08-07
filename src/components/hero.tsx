@@ -98,18 +98,22 @@ export const Hero = () => {
         <div
           className="absolute top-1/4 left-1/4 w-32 h-32 border border-[#0bb3d9]/30 rounded-full animate-pulse"
           style={{ animationDelay: "0s", animationDuration: "3s" }}
+          aria-hidden="true"
         />
         <div
           className="absolute top-3/4 right-1/4 w-24 h-24 bg-[#16f28b]/20 blur-xl rounded-full animate-pulse"
           style={{ animationDelay: "2s", animationDuration: "4s" }}
+          aria-hidden="true"
         />
         <div
           className="absolute top-1/2 right-1/3 w-16 h-16 border border-[#16f28b]/40 rotate-45 animate-spin"
           style={{ animationDuration: "8s" }}
+          aria-hidden="true"
         />
         <div
           className="absolute bottom-1/4 left-1/3 w-20 h-20 bg-[#0bb3d9]/10 rounded-lg animate-bounce"
           style={{ animationDuration: "6s" }}
+          aria-hidden="true"
         />
       </div>
 
@@ -208,15 +212,13 @@ export const Hero = () => {
                   aria-label={label}
                   className="rounded-full hover:bg-[#0bb3d9]/20 p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#0bb3d9]"
                 >
-                  <Icon className="w-6 h-6 text-[#0bb3d9]" />
+                  <Icon className="w-6 h-6 text-[#0bb3d9]" aria-hidden="true" />
                 </a>
               ))}
-              
-              
             </div>
-              <div>
+            <div>
               <span className="ml-2 text-[#0bb3d9]">@YonAndualem</span>
-              </div>
+            </div>
             {/* Description */}
             <div className="flex flex-col items-center w-full">
               <p className={`
@@ -241,16 +243,17 @@ export const Hero = () => {
                 size="lg"
                 className="bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] hover:shadow-lg hover:shadow-[#0bb3d9]/25 text-white px-6 py-6 text-lg font-medium transition-all duration-300 group hover:scale-105"
                 onClick={() => scrollToSection("projects")}
+                aria-label="View My Work"
               >
                 View My Work
-                <div className="transition-transform group-hover:translate-x-1">
-                </div>
+                <div className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
                 className="px-6 py-6 text-lg font-medium border-[#0bb3d9]/90 hover:border-[#0bb3d9] hover:bg-[#0bb3d9]/10 hover:text-[#0bb3d9] transition-all duration-300 hover:scale-105 bg-transparent"
                 onClick={() => scrollToSection("contact")}
+                aria-label="Get In Touch"
               >
                 Get In Touch
               </Button>
@@ -262,7 +265,7 @@ export const Hero = () => {
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <div className="flex flex-col items-center space-y-2 text-gray-400">
-          <ChevronDown className="w-10 h-10" />
+          <ChevronDown className="w-10 h-10" aria-hidden="true" />
         </div>
       </div>
     </section>

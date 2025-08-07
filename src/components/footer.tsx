@@ -24,7 +24,7 @@ export function Footer() {
                             rel="noopener noreferrer"
                             className="rounded-full p-2 bg-gray-800/50 border border-gray-700 hover:bg-[#0bb3d9]/20 hover:border-[#0bb3d9] transition-all"
                         >
-                            <Icon className="w-5 h-5 text-[#0bb3d9] hover:text-white transition-colors" />
+                            <Icon className="w-5 h-5 text-[#0bb3d9] hover:text-white transition-colors" aria-hidden="true" />
                         </a>
                     ))}
                 </div>

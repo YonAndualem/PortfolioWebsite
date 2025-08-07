@@ -110,7 +110,7 @@ export const About = () => {
           >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0bb3d9]/20 to-[#16f28b]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <skill.icon className="w-6 h-6 text-[#0bb3d9]" />
+                <skill.icon className="w-6 h-6 text-[#0bb3d9]" aria-hidden="true" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-white group-hover:text-[#0bb3d9] transition-colors duration-300">
@@ -164,7 +164,7 @@ export const About = () => {
               border: `1px solid ${skill.color}55`,
             }}
           >
-            <skill.icon className="w-4 h-4" style={{ color: skill.color }} />
+            <skill.icon className="w-4 h-4" style={{ color: skill.color }} aria-hidden="true" />
             {skill.label}
           </span>
         ))} */}

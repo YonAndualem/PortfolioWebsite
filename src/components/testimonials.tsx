@@ -173,6 +173,7 @@ export const Testimonials = () => {
               variant="outline"
               size="icon"
               onClick={prevTestimonial}
+              aria-label="Previous testimonial"
               className="border-gray-600 hover:border-[#0bb3d9] hover:bg-[#0bb3d9]/10 bg-transparent"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -186,10 +187,14 @@ export const Testimonials = () => {
                     setCurrentIndex(index)
                     setIsAutoPlaying(false)
                   }}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? "bg-[#0bb3d9] scale-125" : "bg-gray-600 hover:bg-gray-500"
-                  }`}
-                />
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex ? "bg-[#0bb3d9] scale-125" : "bg-gray-600 hover:bg-gray-500"
+                    }`}
+                  tabIndex={0}
+                  style={{ position: "relative" }}
+                >
+                  <span className="sr-only">{`Go to testimonial ${index + 1}`}</span>
+                </button>
               ))}
             </div>
 
@@ -197,6 +202,7 @@ export const Testimonials = () => {
               variant="outline"
               size="icon"
               onClick={nextTestimonial}
+              aria-label="Next testimonial"
               className="border-gray-600 hover:border-[#0bb3d9] hover:bg-[#0bb3d9]/10 bg-transparent"
             >
               <ChevronRight className="w-5 h-5" />

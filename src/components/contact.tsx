@@ -112,8 +112,9 @@ export const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-800/50 backdrop-blur-lg border border-gray-700 flex items-center justify-center hover:bg-[#0bb3d9]/20 hover:border-[#0bb3d9] hover:scale-110 transition-all duration-300 group"
+                  tabIndex={0}
                 >
-                  <social.icon className="w-5 h-5 text-[#0bb3d9] group-hover:text-white transition-colors" />
+                  <social.icon className="w-5 h-5 text-[#0bb3d9] group-hover:text-white transition-colors" aria-hidden="true" />
                 </a>
               ))}
             </div>
@@ -125,7 +126,7 @@ export const Contact = () => {
             `}
             >
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#0bb3d9]" />
+                <Mail className="w-5 h-5 text-[#0bb3d9]" aria-hidden="true" />
                 <span className="text-gray-300">yonasandualem1472@gmail.com</span>
               </div>
               <div className="text-sm text-gray-400">
@@ -149,6 +150,7 @@ export const Contact = () => {
                   onChange={handleInputChange}
                   required
                   className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] text-white placeholder:text-gray-400"
+                  aria-label="Your Name"
                 />
                 <Input
                   name="email"
@@ -158,6 +160,7 @@ export const Contact = () => {
                   onChange={handleInputChange}
                   required
                   className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] text-white placeholder:text-gray-400"
+                  aria-label="Your Email"
                 />
                 <Textarea
                   name="message"
@@ -167,6 +170,7 @@ export const Contact = () => {
                   onChange={handleInputChange}
                   required
                   className="bg-gray-800/50 border-gray-600 focus:border-[#0bb3d9] text-white placeholder:text-gray-400 resize-none"
+                  aria-label="Message"
                 />
               </div>
               <Button
@@ -174,9 +178,10 @@ export const Contact = () => {
                 disabled={isLoading || sent}
                 className="w-full bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] text-white hover:scale-105 transition-all duration-300"
                 size="lg"
+                aria-label={sent ? "Sent!" : isLoading ? "Sending..." : "Send Message"}
               >
                 {sent ? "Sent!" : isLoading ? "Sending..." : "Send Message"}
-                {!sent && <div className="ml-2 transition-transform group-hover:translate-x-1">→</div>}
+                {!sent && <div className="ml-2 transition-transform group-hover:translate-x-1" aria-hidden="true">→</div>}
               </Button>
             </form>
           </Card>

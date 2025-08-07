@@ -107,7 +107,7 @@ export function Navbar() {
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                     className="rounded-full hover:bg-[#0bb3d9]/20 p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#0bb3d9]"
                 >
-                    <Icon className="w-5 h-5 text-[#0bb3d9]" />
+                    <Icon className="w-5 h-5 text-[#0bb3d9]" aria-hidden="true" />
                 </a>
             ))}
         </div>
@@ -202,7 +202,7 @@ export function Navbar() {
                                     <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                                         className="rounded-full hover:bg-[#0bb3d9]/20 p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#0bb3d9]"
                                     >
-                                        <Icon className="w-5 h-5 text-[#0bb3d9]" />
+                                        <Icon className="w-5 h-5 text-[#0bb3d9]" aria-hidden="true" />
                                     </a>
                                 ))}
                             </div>

@@ -101,6 +101,7 @@ export const Services = () => {
               animationDelay: `${Math.random() * 3}s`,
               animationDuration: `${2 + Math.random() * 2}s`,
             }}
+            aria-hidden="true"
           />
         ))}
       </div>
@@ -137,6 +138,7 @@ export const Services = () => {
                 {/* Animated background gradient */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                  aria-hidden="true"
                 />
 
                 <div className="relative z-10">
@@ -145,13 +147,14 @@ export const Services = () => {
                       className="w-16 h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                       style={{ backgroundColor: `${service.color}20` }}
                     >
-                      <service.icon className="w-8 h-8" style={{ color: service.color }} />
+                      <service.icon className="w-8 h-8" style={{ color: service.color }} aria-hidden="true" />
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-white">{service.price}</div>
                     </div>
                   </div>
 
+                  {/* Accessibility: Use h3 for service title */}
                   <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#0bb3d9] transition-colors">
                     {service.title}
                   </h3>
@@ -161,7 +164,7 @@ export const Services = () => {
                   <div className="space-y-3 mb-8">
                     {service.features.map((feature, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: service.color }} />
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: service.color }} aria-hidden="true" />
                         <span className="text-sm text-gray-300">{feature}</span>
                       </div>
                     ))}
@@ -170,9 +173,10 @@ export const Services = () => {
                   <Button
                     className="w-full group/btn transition-all duration-300 hover:scale-105"
                     style={{ backgroundColor: service.color }}
+                    aria-label={`Get started with ${service.title}`}
                   >
                     Get Started
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
                   </Button>
                 </div>
               </Card>

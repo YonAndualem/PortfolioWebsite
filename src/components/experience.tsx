@@ -155,11 +155,13 @@ function ExperienceCard({ exp, index, isMobile }: { exp: typeof experiences[0]; 
       {/* Timeline dot (hide on mobile) */}
       {!isMobile && (
         <div
-          className="absolute top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-gray-900 transition-all duration-300 z-10"
+          className="absolute top-8 left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full border-4 border-gray-900 transition-all duration-300 z-10"
           style={{
             backgroundColor: inView ? exp.color : "#374151",
             boxShadow: inView ? `0 0 20px ${exp.color}` : "none",
           }}
+          aria-label={`Timeline milestone: ${exp.company}`}
+          tabIndex={0}
         />
       )}
       <div
