@@ -17,7 +17,7 @@ const skills = [
     title: "Backend Development",
     description: "API design, databases, and server logic.",
     technologies: [
-      "Node.js", "Express", "Drizzle ORM", "PostgreSQL", "REST APIs", "Firebase", "PHP", "Spring Boot"
+      "Go (Golang)", "Node.js", "Express", "Drizzle ORM", "PostgreSQL", "REST APIs", "Firebase", "PHP", "Spring Boot"
     ],
   },
   {
@@ -47,12 +47,12 @@ const allTools: string[] = [
 ]
 
 // More visually engaging soft skills
-// const softSkills = [
-//   { label: "Problem-solving", color: "#0bb3d9", icon: Sparkles },
-//   { label: "Critical Thinking", color: "#16f28b", icon: Sparkles },
-//   { label: "Communication", color: "#0bb3d9", icon: Sparkles },
-//   { label: "Team Collaboration", color: "#16f28b", icon: Sparkles },
-// ]
+const softSkills = [
+  { label: "Problem-solving", color: "#0bb3d9", icon: Sparkles },
+  { label: "Critical Thinking", color: "#16f28b", icon: Sparkles },
+  { label: "Communication", color: "#0bb3d9", icon: Sparkles },
+  { label: "Team Collaboration", color: "#16f28b", icon: Sparkles },
+]
 
 export const About = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -92,7 +92,7 @@ export const About = () => {
           ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
         `}
         >
-          Software Engineering student with hands-on experience in full stack development, UI/UX design, and quality assurance. Skilled in building robust web applications, designing user-centered interfaces, and ensuring software reliability. Quick learner, proactive in adopting new technologies, and a collaborative team player dedicated to delivering impactful results.
+          Software Engineering student @ HiLCoE and ALX alumnus focusing on full-stack development and UI/UX design. Skilled in Next.js, Go (Golang), and the MERN stack. I build high-performance, user-centered applications that combine robust backends with seamless, engaging interfaces.
         </p>
       </div>
 
@@ -154,20 +154,21 @@ export const About = () => {
           ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
         `}
       >
-        {/* {softSkills.map((skill, idx) => (
+        {softSkills.map((skill, idx) => (
           <span
             key={idx}
-            className="flex items-center gap-2 px-5 py-2 rounded-xl font-semibold text-sm shadow-sm"
+            className="flex items-center gap-2 px-5 py-2 rounded-xl font-semibold text-sm shadow-sm hover:scale-105 transition-transform duration-300"
             style={{
-              background: `linear-gradient(90deg, ${skill.color} 0%, #222 100%)`,
+              background: `linear-gradient(90deg, ${skill.color}15 0%, #111827 100%)`,
               color: "#fff",
               border: `1px solid ${skill.color}55`,
+              boxShadow: `0 0 10px ${skill.color}11`,
             }}
           >
             <skill.icon className="w-4 h-4" style={{ color: skill.color }} aria-hidden="true" />
             {skill.label}
           </span>
-        ))} */}
+        ))}
       </div>
     </div>
   )

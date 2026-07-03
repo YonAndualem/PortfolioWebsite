@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence, type MotionValue } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { projects } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 
 // Image Carousel Component
 function ImageCarousel({ images, accentColor }: { images: string[]; accentColor: string }) {
@@ -63,7 +63,7 @@ function ImageCarousel({ images, accentColor }: { images: string[]; accentColor:
                     {">"}
                 </Button>
             </div>
-            {/* Dots (accessible, non-intrusive) */}
+            {/* Dots */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                 {images.map((_, index) => (
                     <button
@@ -86,22 +86,31 @@ function ImageCarousel({ images, accentColor }: { images: string[]; accentColor:
 }
 
 // Stacking Cards Component
-function StackingCards() {
+function StackingCards({ items }: { items: Project[] }) {
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: ref,
         offset: ["start start", "end end"],
     });
+
+    if (items.length === 0) {
+        return (
+            <div className="text-center py-20 text-gray-400">
+                No projects found in this category.
+            </div>
+        );
+    }
+
     return (
-        <div ref={ref} className="relative" style={{ height: `${projects.length * 100}vh` }}>
-            {projects.map((project, index) => {
-                const targetScale = 1 - (projects.length - index) * 0.05;
+        <div ref={ref} className="relative" style={{ height: `${items.length * 100}vh` }}>
+            {items.map((project, index) => {
+                const targetScale = 1 - (items.length - index) * 0.05;
                 return (
                     <ProjectCard
                         key={project.id}
                         index={index}
                         project={project}
-                        range={[index * 0.25, 1]}
+                        range={[index * (1 / items.length), 1]}
                         targetScale={targetScale}
                         parentProgress={scrollYProgress}
                     />
@@ -120,7 +129,7 @@ function ProjectCard({
     range,
 }: {
     index: number;
-    project: (typeof projects)[0];
+    project: Project;
     parentProgress: MotionValue<number>;
     targetScale: number;
     range: [number, number];
@@ -135,6 +144,7 @@ function ProjectCard({
                     top: `calc(-10% + ${index * 25}px)`,
                     scale,
                 }}
+                layout
             >
                 <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-700 rounded-2xl p-1 group transition-all duration-500 ease-out hover:border-[#0bb3d9]/50 hover:shadow-2xl hover:shadow-[#0bb3d9]/10">
                     <div className="bg-gray-900/80 rounded-[14px] p-8 transition-all duration-500 ease-out group-hover:bg-gray-900/90">
@@ -229,23 +239,55 @@ function ProjectCard({
     );
 }
 
-export const Projects = () => (
-    <section id="projects" className="py-20 relative">
-        <div className="max-w-6xl mx-auto px-4 mb-16">
-            <motion.div
-                className="text-center"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-            >
-                <h2 className="text-5xl font-bold text-white mb-6">Featured Projects</h2>
-                <div className="w-24 h-1 bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] mx-auto mb-8"></div>
-                <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-                    A collection of projects that showcase my skills in modern web development, 3D graphics, and user experience design.
-                </p>
-            </motion.div>
-        </div>
-        <StackingCards />
-    </section>
-);
+export const Projects = () => {
+    const [activeTab, setActiveTab] = useState<"all" | "development" | "systems-ai" | "design-qa">("all");
+
+    const filteredProjects = activeTab === "all"
+        ? projects
+        : projects.filter((p) => p.categories.includes(activeTab));
+
+    const categoryNames = {
+        all: "All Projects",
+        development: "Web Dev",
+        "systems-ai": "Systems & AI",
+        "design-qa": "Design & QA"
+    };
+
+    return (
+        <section id="projects" className="py-20 relative">
+            <div className="max-w-6xl mx-auto px-4 mb-16">
+                <motion.div
+                    className="text-center"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                >
+                    <h2 className="text-5xl font-bold text-white mb-6">Featured Projects</h2>
+                    <div className="w-24 h-1 bg-gradient-to-r from-[#0bb3d9] to-[#16f28b] mx-auto mb-8"></div>
+                    <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
+                        A collection of projects that showcase my skills in full-stack web development, system architecture, and automation.
+                    </p>
+
+                    {/* Category Filter Pills */}
+                    <div className="flex flex-wrap justify-center items-center gap-2 p-1.5 bg-gray-900/80 border border-gray-800 rounded-2xl md:rounded-full max-w-xl mx-auto">
+                        {(Object.keys(categoryNames) as Array<keyof typeof categoryNames>).map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveTab(cat)}
+                                className={`py-2 px-4 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 uppercase tracking-wider ${
+                                    activeTab === cat
+                                        ? "bg-[#0bb3d9] text-white shadow-lg shadow-[#0bb3d9]/35"
+                                        : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+                                }`}
+                            >
+                                {categoryNames[cat]}
+                            </button>
+                        ))}
+                    </div>
+                </motion.div>
+            </div>
+            <StackingCards items={filteredProjects} />
+        </section>
+    );
+};

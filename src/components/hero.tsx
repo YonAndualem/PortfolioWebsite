@@ -51,12 +51,11 @@ export const Hero = () => {
 
   // Typewriter effect for creative roles
   const typewriter = useTypewriter([
-    "Next.js, Node.js, MERN.",
+    "Next.js, Go (Golang), Node.js.",
+    "Full Stack Developer.",
     "UI/UX Designer.",
-    "Android | iOS Developer.",
-    "Web Developer.",
-    "Full Stack Alchemist.",
     "Software Engineer.",
+    "Quality Assurance.",
     "Tech Enthusiast."
   ]);
 
